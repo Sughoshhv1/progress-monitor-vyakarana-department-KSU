@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendance Monitor</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>Employee Attendance Monitor</header>
+
+<div class="container">
+
+  <!-- LOGIN -->
+  <div class="card" id="loginDiv">
+    <h3>Login</h3>
+    <input type="text" id="empId" placeholder="Employee ID">
+    <input type="password" id="password" placeholder="Password">
+    <button id="loginBtn" onclick="login()">Check-In</button>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="card" id="dashboard" style="display:none;">
+    <h3 id="message"></h3>
+    <h4 id="timer"></h4>
+
+    <div class="user-info" id="userDetails"></div>
+
+    <button id="logoutBtn" onclick="logout()" disabled>Check-Out</button>
+  </div>
+
+</div>
+
+<footer>© 2026 Attendance System</footer>
+
+<!-- POPUP -->
+<div id="overlay"></div>
+
+<div id="popup">
+  <h3>Are you still active?</h3>
+  <p>Auto logout in <b id="countdown">30</b> seconds</p>
+  <button onclick="stayActive()">Continue</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
