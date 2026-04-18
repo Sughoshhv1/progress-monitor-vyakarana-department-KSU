@@ -10,19 +10,24 @@ let lastActivityTime = Date.now();
 let loginTime = null;
 let timerInterval = null;
 
-const TIME_LIMIT =  10 * 1000; // 5 mins
+const TIME_LIMIT =  30 * 60 * 1000; // 30 mins
 
 // LOGIN
 async function login() {
+const empId = document.getElementById("empId").value.trim();
+const password = document.getElementById("password").value.trim();
+
+// ✅ VALIDATION
+if (!empId || !password) {
+  alert("Please fill both fields ⚠️");
+  return;
+} 
   const loginBtn = document.getElementById("loginBtn");
   const logoutBtn = document.getElementById("logoutBtn");
 
   loginBtn.disabled = true;
   loginBtn.innerText = "Processing...";
   logoutBtn.disabled = true;
-
-  const empId = document.getElementById("empId").value;
-  const password = document.getElementById("password").value;
 
   try {
     navigator.geolocation.getCurrentPosition(async function (position) {
@@ -65,12 +70,13 @@ async function login() {
         address: geo.display_name
       };
 
+      document.getElementById("pageTitle").style.display = "none";
       document.getElementById("loginDiv").style.display = "none";
       document.getElementById("dashboard").style.display = "block";
 
     document.getElementById("message").innerHTML =
   `👋 <b>Welcome, ${userData.name}</b><br>
-   <span style="color:#e67e22;">⚠️ 5 mins inactivity → auto logout</span>`;
+   <span style="color:#e67e22;">⚠️ 30 mins inactivity → auto logout</span>`;
 
     document.getElementById("userDetails").innerHTML = `
     <div class="info-row"><span>🆔</span><b>Employee ID</b><p>${userData.empId}</p></div>
@@ -80,6 +86,7 @@ async function login() {
     `;
 
       loginBtn.innerText = "Login";
+      logoutBtn.innerText = "Logout";
       logoutBtn.disabled = false;
 
       loginTime = Date.now();
@@ -137,6 +144,7 @@ async function logout() {
   logoutBtn.disabled = true;
   logoutBtn.innerText = "Processing...";
 
+  try {
   await fetch(WEB_APP_URL, {
     method: "POST",
     body: JSON.stringify({
@@ -148,11 +156,15 @@ async function logout() {
       address: userData.address
     })
   });
+} catch (e) {
+  console.log("Logout error");
+}
 
   userData = null;
 
   document.getElementById("dashboard").style.display = "none";
   document.getElementById("loginDiv").style.display = "block";
+  document.getElementById("pageTitle").style.display = "block";
 
   document.getElementById("empId").value = "";
   document.getElementById("password").value = "";
@@ -162,6 +174,9 @@ async function logout() {
 
   document.getElementById("loginBtn").disabled = false;
   document.getElementById("loginBtn").innerText = "Login";
+
+  logoutBtn.innerText = "Logout";
+  logoutBtn.disabled = true;
 }
 
 // POPUP
@@ -171,6 +186,7 @@ function showPopup() {
   popupActive = true;
   countdown = 30;
 
+  document.getElementById("countdown").innerText = countdown;
   document.getElementById("overlay").style.display = "block";
   document.getElementById("popup").style.display = "block";
 
