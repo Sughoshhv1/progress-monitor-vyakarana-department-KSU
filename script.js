@@ -85,8 +85,8 @@ if (!empId || !password) {
     <div class="info-row"><span>📍</span><b>Location</b><p>${userData.address}</p></div>
     `;
 
-      loginBtn.innerText = "Login";
-      logoutBtn.innerText = "Logout";
+      loginBtn.innerText = "Check-In";
+      logoutBtn.innerText = "Check-Out";
       logoutBtn.disabled = false;
 
       loginTime = Date.now();
@@ -98,7 +98,7 @@ if (!empId || !password) {
   } catch (err) {
     alert("Error occurred");
     loginBtn.disabled = false;
-    loginBtn.innerText = "Login";
+    loginBtn.innerText = "Check-In";
   }
 }
 
@@ -175,7 +175,7 @@ async function logout() {
   document.getElementById("loginBtn").disabled = false;
   document.getElementById("loginBtn").innerText = "Login";
 
-  logoutBtn.innerText = "Logout";
+  logoutBtn.innerText = "Check-Out";
   logoutBtn.disabled = true;
 }
 
