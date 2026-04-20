@@ -173,6 +173,11 @@ function updateActivity() {
 document.addEventListener("mousemove", updateActivity);
 document.addEventListener("keydown", updateActivity);
 document.addEventListener("click", updateActivity);
+document.addEventListener("visibilitychange", function() {
+  if (document.visibilityState === "visible") {
+    updateActivity(); // resets lastActivityTime when tab becomes active
+  }
+});
 
 function startTracking() {
   trackingInterval = setInterval(() => {
