@@ -137,6 +137,52 @@ body {
       z-index: 11;
       box-shadow: 0 5px 20px rgba(0,0,0,0.3);
     }
+.guide-floating {
+  position: fixed;
+  bottom: 70px; /* above footer */
+  right: 20px;
+  z-index: 1000;
+}
+
+.guide-floating button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  background: #27ae60;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: 0.3s;
+}
+
+.guide-floating button:hover {
+  background: #219150;
+  transform: scale(1.1);
+}
+
+/* Tooltip */
+.tooltip-text {
+  position: absolute;
+  right: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #2c3e50;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: 13px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+}
+
+.guide-floating:hover .tooltip-text {
+  opacity: 1;
+}
+
     /* MOBILE RESPONSIVE */
 @media (max-width: 600px) {
 
