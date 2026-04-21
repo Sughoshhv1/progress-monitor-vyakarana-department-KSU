@@ -10,7 +10,7 @@ let lastActivityTime = Date.now();
 let loginTime = null;
 let timerInterval = null;
 
-const TIME_LIMIT = 30 * 60 * 1000; // 30 mins
+const TIME_LIMIT = 10 * 1000; // 30 mins
 
 // ─── HELPER: Get location as a Promise ───────────────────────────────────────
 // Returns { lat, lon, address } on success.
@@ -259,6 +259,9 @@ function showPopup() {
   popupTimer = setInterval(() => {
     
     countdown--;
+        if (countdown <= 10) {
+  speakNumber(countdown);
+}
     document.getElementById("countdown").innerText = countdown;
 
     if (countdown <= 0) {
@@ -280,5 +283,16 @@ function stayActive() {
 }
 
 function openGuide() {
-  window.open("UserGuide_AttendanceMonitor.pdf", "_blank");
+  window.open("UserGuide_ProgressMonitor.pdf", "_blank");
+}
+
+function speakNumber(num) {
+  // Stop any previous speech immediately
+  window.speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(String(num));
+  utterance.volume = 1;
+  utterance.rate = 1.5; // slightly faster
+
+  window.speechSynthesis.speak(utterance);
 }
