@@ -10,7 +10,7 @@ let lastActivityTime = Date.now();
 let loginTime = null;
 let timerInterval = null;
 
-const TIME_LIMIT = 10 * 1000; // 30 mins
+const TIME_LIMIT = 30 * 60 * 1000; // 30 mins
 
 // ─── HELPER: Get location as a Promise ───────────────────────────────────────
 // Returns { lat, lon, address } on success.
@@ -287,12 +287,13 @@ function openGuide() {
 }
 
 function speakNumber(num) {
-  // Stop any previous speech immediately
-  window.speechSynthesis.cancel();
-
-  const utterance = new SpeechSynthesisUtterance(String(num));
-  utterance.volume = 1;
-  utterance.rate = 1.5; // slightly faster
-
-  window.speechSynthesis.speak(utterance);
+  try {
+    window.speechSynthesis.cancel(); // cancel any previous speech first
+    const utterance = new SpeechSynthesisUtterance(String(num));
+    utterance.rate = 1.2;
+    utterance.volume = 1;
+    window.speechSynthesis.speak(utterance);
+  } catch (e) {
+    // speech not supported, silently ignore
+  }
 }
