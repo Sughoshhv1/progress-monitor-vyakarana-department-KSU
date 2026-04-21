@@ -10,7 +10,7 @@ let lastActivityTime = Date.now();
 let loginTime = null;
 let timerInterval = null;
 
-const TIME_LIMIT = 30 * 60 * 1000; // 30 mins
+const TIME_LIMIT = 10 * 1000; // 30 mins
 
 // ─── HELPER: Get location as a Promise ───────────────────────────────────────
 // Returns { lat, lon, address } on success.
