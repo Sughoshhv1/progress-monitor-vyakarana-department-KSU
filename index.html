@@ -37,7 +37,33 @@
     <div class="user-info" id="userDetails"></div>
 
     <button id="logoutBtn" onclick="logout()" disabled>Check-Out</button>
+
+           <!-- SUBMIT WORK BUTTON -->
+<button id="workBtn" onclick="toggleWorkForm()">📤 Submit Work</button>
+
   </div>
+
+<!-- NEW SEPARATE CARD FOR WORKSUBMIT -->
+<div class="card" id="workCard" style="display:none; margin-top:20px;">
+
+  <h3>Submit Work</h3>
+
+  <select id="projectName">
+    <option value="">Select Project</option>
+    <option>NLTM</option>
+    <option>AD-MAHAKOSHA</option>
+    <option>AD-BGPS</option>
+    <option>AD-SAMAYOGI</option>
+  </select>
+
+  <input type="text" id="kosha" placeholder="Name of Text">
+  <input type="text" id="chapter" placeholder="Chapter">
+  <input type="text" id="lines" placeholder="Line Numbers">
+  <input type="text" id="description" placeholder="Description / Comments">
+
+  <button id="submitWorkBtn" onclick="submitWork()">Submit</button>
+
+</div>
 
 </div>
 

@@ -127,6 +127,15 @@ async function login() {
     document.getElementById("loginDiv").style.display = "none";
     document.getElementById("dashboard").style.display = "block";
 
+    // reset work UI on login
+document.getElementById("workCard").style.display = "none";
+
+const submitBtn = document.getElementById("submitWorkBtn");
+if (submitBtn) {
+  submitBtn.disabled = false;
+  submitBtn.innerText = "Submit";
+}
+
     document.getElementById("message").innerHTML =
       `👋 <b>Welcome, ${userData.name}</b><br>
        <span style="color:#e67e22;">⚠️ 30 mins inactivity → auto logout</span>`;
@@ -233,6 +242,18 @@ async function logout() {
   document.getElementById("loginDiv").style.display = "block";
   document.getElementById("pageTitle").style.display = "block";
 
+  // reset submit work UI
+document.getElementById("workBtn").disabled = false;
+document.getElementById("workBtn").innerText = "📤 Submit Work";
+document.getElementById("workCard").style.display = "none";
+
+// reset work form button
+const submitBtn = document.getElementById("submitWorkBtn");
+if (submitBtn) {
+  submitBtn.disabled = false;
+  submitBtn.innerText = "Submit";
+}
+
   document.getElementById("empId").value = "";
   document.getElementById("password").value = "";
   document.getElementById("timer").innerText = "";
@@ -295,5 +316,76 @@ function speakNumber(num) {
     window.speechSynthesis.speak(utterance);
   } catch (e) {
     // speech not supported, silently ignore
+  }
+}
+
+function toggleWorkForm() {
+  const card = document.getElementById("workCard");
+  card.style.display = "block";
+
+  card.scrollIntoView({ behavior: "smooth" });
+}
+async function submitWork() {
+  if (!userData) {
+    alert("Please login first ⚠️");
+    return;
+  }
+
+  const btn = document.getElementById("submitWorkBtn");
+
+  // 🚫 prevent multiple clicks
+  btn.disabled = true;
+  btn.innerText = "Submitting...";
+
+  const project = document.getElementById("projectName").value;
+  const kosha = document.getElementById("kosha").value;
+  const chapter = document.getElementById("chapter").value;
+  const lines = document.getElementById("lines").value;
+  const description = document.getElementById("description").value;
+
+  const now = new Date();
+
+  try {
+    await fetch(WEB_APP_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        empId: userData.empId,
+        password: userData.password,
+        action: "WORK",
+
+        project,
+        kosha,
+        chapter,
+        lines,
+        description,
+
+        date: now.toDateString(),
+        time: now.toLocaleTimeString()
+      })
+    });
+
+    alert("✅ Work submitted successfully!");
+
+    // ✅ CLEAR FORM
+    document.getElementById("projectName").value = "";
+    document.getElementById("kosha").value = "";
+    document.getElementById("chapter").value = "";
+    document.getElementById("lines").value = "";
+    document.getElementById("description").value = "";
+
+    // ✅ HIDE CARD
+    document.getElementById("workCard").style.display = "none";
+
+    // ✅ DISABLE MAIN BUTTON (only once per login)
+    const workBtn = document.getElementById("workBtn");
+    workBtn.disabled = true;
+    workBtn.innerText = "✅ Submitted";
+
+  } catch (err) {
+    alert("Error submitting work ❌");
+
+    // re-enable if failed
+    btn.disabled = false;
+    btn.innerText = "Submit";
   }
 }

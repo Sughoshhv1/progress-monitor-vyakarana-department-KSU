@@ -13,10 +13,11 @@ body {
     }
     .page-title {
       text-align: center;
-      font-size: 22px;
-      font-weight: 600;
-      margin-top: 20px;
-      color: #2c3e50;
+  font-size: 26px;
+  font-weight: 600;
+  margin-top: 3%;
+  color: #2c3e50;
+  margin-bottom: 7%;
     }
     .dept-banner {
         text-align: center;
@@ -39,22 +40,23 @@ body {
     }
 
     .container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: calc(100vh - 140px);
-    }
+  display: flex;
+  flex-direction: column; /* 🔥 KEY FIX */
+  align-items: center;
+  padding: 20px;
+}
 
     .card {
       background: white;
       padding: 30px;
       border-radius: 10px;
       width: 350px;
+      margin-bottom: 15px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     }
 
     input {
-      width: 100%;
+      width: 95%;
       padding: 10px;
       margin: 8px 0;
       border-radius: 5px;
@@ -181,6 +183,34 @@ body {
 
 .guide-floating:hover .tooltip-text {
   opacity: 1;
+}
+
+#workBtn {
+  margin-top: 10px;
+  background: #27ae60;
+}
+
+#workBtn:hover {
+  background: #219150;
+}
+
+#workForm input,
+#workForm select {
+  margin-top: 8px;
+}
+
+#workCard {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+
+#submitWorkBtn:disabled {
+  background: #95a5a6;
+  cursor: not-allowed;
 }
 
     /* MOBILE RESPONSIVE */
