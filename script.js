@@ -280,9 +280,9 @@ function showPopup() {
   popupTimer = setInterval(() => {
     
     countdown--;
-        if (countdown <= 10) {
-  speakNumber(countdown);
-}
+//         if (countdown <= 10) {
+//   speakNumber(countdown);
+// }
     document.getElementById("countdown").innerText = countdown;
 
     if (countdown <= 0) {
@@ -307,17 +307,17 @@ function openGuide() {
   window.open("UserGuide_ProgressMonitor.pdf", "_blank");
 }
 
-function speakNumber(num) {
-  try {
-    window.speechSynthesis.cancel(); // cancel any previous speech first
-    const utterance = new SpeechSynthesisUtterance(String(num));
-    utterance.rate = 1.2;
-    utterance.volume = 1;
-    window.speechSynthesis.speak(utterance);
-  } catch (e) {
-    // speech not supported, silently ignore
-  }
-}
+// function speakNumber(num) {
+//   try {
+//     window.speechSynthesis.cancel(); // cancel any previous speech first
+//     const utterance = new SpeechSynthesisUtterance(String(num));
+//     utterance.rate = 1.2;
+//     utterance.volume = 1;
+//     window.speechSynthesis.speak(utterance);
+//   } catch (e) {
+//     // speech not supported, silently ignore
+//   }
+// }
 
 function toggleWorkForm() {
   const card = document.getElementById("workCard");
