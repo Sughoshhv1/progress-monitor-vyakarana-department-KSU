@@ -197,11 +197,6 @@ body {
   background: #219150;
 }
 
-#workForm input,
-#workForm select {
-  margin-top: 8px;
-}
-
 #workCard {
   animation: fadeIn 0.3s ease-in-out;
 }

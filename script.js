@@ -325,6 +325,7 @@ function toggleWorkForm() {
 
   card.scrollIntoView({ behavior: "smooth" });
 }
+
 async function submitWork() {
   if (!userData) {
     alert("Please login first ⚠️");
@@ -333,11 +334,10 @@ async function submitWork() {
 
   const btn = document.getElementById("submitWorkBtn");
 
-  // 🚫 prevent multiple clicks
+  // prevent multiple clicks
   btn.disabled = true;
   btn.innerText = "Submitting...";
 
-  const project = document.getElementById("projectName").value;
   const kosha = document.getElementById("kosha").value;
   const chapter = document.getElementById("chapter").value;
   const lines = document.getElementById("lines").value;
@@ -353,7 +353,6 @@ async function submitWork() {
         password: userData.password,
         action: "WORK",
 
-        project,
         kosha,
         chapter,
         lines,
@@ -366,25 +365,22 @@ async function submitWork() {
 
     alert("✅ Work submitted successfully!");
 
-    // ✅ CLEAR FORM
-    document.getElementById("projectName").value = "";
+    // clear form
     document.getElementById("kosha").value = "";
     document.getElementById("chapter").value = "";
     document.getElementById("lines").value = "";
     document.getElementById("description").value = "";
 
-    // ✅ HIDE CARD
+    // hide card
     document.getElementById("workCard").style.display = "none";
 
-    // ✅ DISABLE MAIN BUTTON (only once per login)
+    // disable main button (only once per login)
     const workBtn = document.getElementById("workBtn");
     workBtn.disabled = true;
     workBtn.innerText = "✅ Submitted";
 
   } catch (err) {
     alert("Error submitting work ❌");
-
-    // re-enable if failed
     btn.disabled = false;
     btn.innerText = "Submit";
   }
