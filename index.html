@@ -5,80 +5,120 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Progress Monitor</title>
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="dept-banner">
-    Karnataka Samskrit University
+  <div class="dept-banner">Karnataka Samskrit University</div>
+  <header>Department of Vyakarana</header>
+
+  <main class="container">
+
+    <div id="pageTitle" class="page-title">
+      Progress Report of Project Employees
+      <small>Sign in to record your attendance and daily work</small>
+    </div>
+
+    <!-- LOGIN -->
+    <div class="card" id="loginDiv">
+      <h3>Login</h3>
+      <input type="text" id="empId" placeholder="Employee ID" autocomplete="username">
+      <div class="password-container">
+        <input type="password" id="password" placeholder="Password" autocomplete="current-password">
+        <i class="fa-solid fa-eye toggle-password" onclick="togglePassword()"></i>
+      </div>
+      <button id="loginBtn" onclick="login()">Check-In</button>
+    </div>
+
+    <!-- DASHBOARD (everything after check-in lives here) -->
+    <div id="dashboard" style="display:none;">
+
+      <div class="welcome-bar">
+        <h3 id="message"></h3>
+        <h4 id="timer"></h4>
+      </div>
+
+      <div class="dash-grid">
+
+        <!-- LEFT: details + actions -->
+        <section class="card details-card">
+          <div class="card-head head-row">
+            <div>
+              <h3>Your Details</h3>
+              <p>Your check-in information</p>
+            </div>
+            <span class="status-pill">Checked in</span>
+          </div>
+          <div class="user-info" id="userDetails"></div>
+          <div class="btn-row">
+            <button id="logoutBtn" onclick="logout()" disabled>Check-Out</button>
+            <button id="workBtn" onclick="toggleWorkForm()">📤 Submit Work</button>
+          </div>
+        </section>
+
+        <!-- RIGHT: quick guide, replaced by the form when Submit Work is clicked -->
+        <div class="side-col">
+
+          <aside class="card guide-card">
+            <div class="card-head">
+              <h3>Quick Guide</h3>
+              <p>Four things to remember</p>
+            </div>
+            <ul>
+              <li><span>1</span><p>Click <b>Submit Work</b> to record today's progress.</p></li>
+              <li><span>2</span><p>Your active time is counted from check-in.</p></li>
+              <li><span>3</span><p>You are logged out automatically after 30 minutes of inactivity.</p></li>
+              <li><span>4</span><p>Click <b>Check-Out</b> when you finish for the day.</p></li>
+            </ul>
+            <button class="ghost-btn" onclick="openGuide()">📘 Open User Guide</button>
+          </aside>
+
+          <div class="card" id="workCard" style="display:none;">
+            <div class="card-head">
+              <h3>Submit Work</h3>
+              <p>Record today's progress</p>
+            </div>
+            <input type="text" id="kosha" placeholder="Name of Text">
+            <input type="text" id="chapter" placeholder="Chapter">
+            <input type="text" id="lines" placeholder="Line Numbers">
+            <input type="text" id="description" placeholder="Description / Comments">
+            <button id="submitWorkBtn" onclick="submitWork()">Submit</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>© 2026 Department of Vyakarana</footer>
+
+  <!-- POPUP -->
+  <div id="overlay"></div>
+  <div id="popup">
+    <h3>Are you still active?</h3>
+    <p>Auto logout in <b id="countdown">30</b> seconds</p>
+    <button onclick="stayActive()">Continue</button>
   </div>
-<header>Department of Vyakarana</header>
 
-<div id="pageTitle" class="page-title">
-  Progress Report of Project Employees
-</div>
-
-<div class="container">
-
-  <!-- LOGIN -->
-  <div class="card" id="loginDiv">
-    <h3>Login</h3>
-    <input type="text" id="empId" placeholder="Employee ID">
-    <div class="password-container">
-  <input type="password" id="password" placeholder="Password">
-  <i class="fa-solid fa-eye toggle-password" onclick="togglePassword()"></i>
-</div>
-    <button id="loginBtn" onclick="login()">Check-In</button>
+  <div class="guide-floating">
+    <span class="tooltip-text">View User Guide</span>
+    <button onclick="openGuide()" aria-label="View User Guide">📘</button>
   </div>
 
-  <!-- DASHBOARD -->
-  <div class="card" id="dashboard" style="display:none;">
-    <h3 id="message"></h3>
-    <h4 id="timer"></h4>
-
-    <div class="user-info" id="userDetails"></div>
-
-    <button id="logoutBtn" onclick="logout()" disabled>Check-Out</button>
-
-           <!-- SUBMIT WORK BUTTON -->
-<button id="workBtn" onclick="toggleWorkForm()">📤 Submit Work</button>
-
-  </div>
-
-<!-- NEW SEPARATE CARD FOR WORKSUBMIT -->
-<div class="card" id="workCard" style="display:none; margin-top:20px;margin-bottom:40px;">
-
-  <h3>Submit Work</h3>
-
-  <input type="text" id="kosha" placeholder="Name of Text">
-  <input type="text" id="chapter" placeholder="Chapter">
-  <input type="text" id="lines" placeholder="Line Numbers">
-  <input type="text" id="description" placeholder="Description / Comments">
-
-  <button id="submitWorkBtn" onclick="submitWork()">Submit</button>
-
-</div>
-
-</div>
-
-<footer>© 2026 Department of Vyakarana</footer>
-
-<!-- POPUP -->
-<div id="overlay"></div>
-
-<div id="popup">
-  <h3>Are you still active?</h3>
-  <p>Auto logout in <b id="countdown">30</b> seconds</p>
-  <button onclick="stayActive()">Continue</button>
-</div>
-
-<div class="guide-floating">
-  <span class="tooltip-text">View User Guide</span>
-  <button onclick="openGuide()">📘</button>
-</div>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
+  <script>
+    // Press Enter to log in
+    ["empId", "password"].forEach(function (id) {
+      document.getElementById(id).addEventListener("keydown", function (e) {
+        if (e.key === "Enter") login();
+      });
+    });
+  </script>
 </body>
 </html>
