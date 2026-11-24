@@ -68,7 +68,7 @@ footer {
 .container {
   flex: 1;
   width: 100%;
-  max-width: 1100px;
+  max-width: 1360px;
   margin: 0 auto;
   padding: 32px 20px 36px;
   display: flex;
@@ -152,6 +152,8 @@ input:focus {
 
 .password-container { position: relative; width: 100%; }
 .password-container input { padding-right: 44px; }
+.password-container input::-ms-reveal,
+.password-container input::-ms-clear { display: none; }
 .toggle-password {
   position: absolute;
   right: 15px;
@@ -229,7 +231,8 @@ button:disabled {
 .ghost-btn:hover:not(:disabled) { background: #f1f4f9; box-shadow: none; }
 
 /* ── Dashboard ──────────────────────────────────── */
-#dashboard { width: 100%; }
+#dashboard { width: 100%; max-width: 1060px; }          /* original width */
+#dashboard.has-tasks { max-width: 1320px; }              /* room for 3 boxes */
 
 /* Welcome bar */
 .welcome-bar {
@@ -302,10 +305,10 @@ button:disabled {
 .dash-grid .card { width: 100%; }
 
 .details-card { display: flex; flex-direction: column; }
-.side-col { display: flex; flex-direction: column; }
+.side-col { display: flex; flex-direction: column; gap: 20px; }
 
 /* Details: compact tiles, location as a small note */
-.user-info { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.user-info { display: grid; grid-template-columns: 1fr 1.9fr; gap: 10px; margin-bottom: 20px; }
 
 .info-row {
   min-width: 0;
@@ -409,6 +412,101 @@ button:disabled {
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* ── Today's assigned work (compact) ────────────── */
+.task-card {
+  display: none;                  /* shown only when tasks exist */
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.task-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 20px;
+  background: linear-gradient(100deg, #fff 0%, var(--gold-soft) 100%);
+  border-bottom: 1px solid var(--line);
+}
+.task-head > div {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 2px 12px;
+  min-width: 0;
+}
+.task-head h3 {
+  margin: 0;
+  text-align: left;
+  font-family: "Merriweather", Georgia, serif;
+  font-size: 16px;
+}
+.task-head p {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.task-count {
+  flex: none;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #8a5a12;
+  background: #fff;
+  border: 1px solid #f0dcb3;
+  border-radius: 999px;
+}
+
+/* Scrolls inside the card when there are many or very long tasks */
+.task-list {
+  display: grid;
+  gap: 8px;
+  max-height: 230px;
+  margin: 0;
+  padding: 12px 20px 14px;
+  list-style: none;
+  overflow-y: auto;
+  align-content: start;
+  scrollbar-width: thin;
+  scrollbar-color: #cdd5e4 transparent;
+}
+
+.task-item {
+  padding: 9px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--ink);
+  white-space: pre-line;          /* keeps line breaks typed in the sheet cell */
+  background: #fbfcfe;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--gold);
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+
+/* With tasks: card on top (tablet), or the third box on wide screens */
+.has-tasks .task-card { display: flex; flex-direction: column; grid-column: 1 / -1; order: -1; }
+
+@media (min-width: 1200px) {
+  .has-tasks .dash-grid { grid-template-columns: 1.25fr 1.25fr 0.9fr; align-items: stretch; }
+  .has-tasks .task-card { grid-column: auto; order: 0; align-self: start; }
+  .has-tasks .dash-grid .card { padding: 24px; }
+  .has-tasks .dash-grid .task-card { padding: 0; }
+  .has-tasks .task-list { max-height: 380px; }
+  .has-tasks .side-col .guide-card { display: flex; flex-direction: column; flex: 1; }
+  .has-tasks .ghost-btn,
+  .has-tasks .btn-row { margin-top: auto; }
+}
+
+@media (max-width: 600px) {
+  .task-head { padding: 12px 16px; }
+  .task-list { padding: 12px 16px 14px; }
+}
+
 /* ── Inactivity popup ───────────────────────────── */
 #overlay {
   display: none;
@@ -475,7 +573,10 @@ button:disabled {
 /* ── Tablet / mobile ────────────────────────────── */
 @media (max-width: 900px) {
   .dash-grid { grid-template-columns: 1fr; gap: 20px; }
-  .guide-card { display: none; }   /* stacked layout: no side space to fill */
+  .side-col { display: contents; }
+  .task-card { order: -1; }
+  #workCard { order: 1; }
+  .guide-card { order: 2; }
 }
 
 @media (max-width: 600px) {

@@ -122,6 +122,8 @@ async function login() {
       address: location.address
     };
 
+    renderTasks(result.tasks);
+
     document.querySelector(".guide-floating").style.display = "none";
     document.getElementById("pageTitle").style.display = "none";
     document.getElementById("loginDiv").style.display = "none";
@@ -162,6 +164,33 @@ if (submitBtn) {
     loginBtn.disabled = false;
     loginBtn.innerText = "Check-In";
   }
+}
+
+// ─── ASSIGNED TASKS ──────────────────────────────────────────────────────────
+function renderTasks(tasks) {
+  const dash = document.getElementById("dashboard");
+  const list = document.getElementById("taskList");
+  const count = document.getElementById("taskCount");
+  const dateEl = document.getElementById("taskDate");
+  list.innerHTML = "";
+
+  const items = Array.isArray(tasks) ? tasks.filter(Boolean) : [];
+
+  // No task assigned: normal two-box layout. Tasks: three-box layout.
+  dash.classList.toggle("has-tasks", items.length > 0);
+  if (items.length === 0) return;
+
+  dateEl.textContent = new Date().toLocaleDateString("en-IN", {
+    weekday: "long", day: "numeric", month: "long", year: "numeric"
+  });
+  count.textContent = items.length === 1 ? "1 task" : items.length + " tasks";
+
+  items.forEach(function (t) {
+    const li = document.createElement("li");
+    li.className = "task-item";
+    li.textContent = t;   // textContent keeps it safe
+    list.appendChild(li);
+  });
 }
 
 // ─── TIMER ────────────────────────────────────────────────────────────────────
@@ -253,6 +282,8 @@ if (submitBtn) {
   submitBtn.disabled = false;
   submitBtn.innerText = "Submit";
 }
+
+  document.getElementById("taskList").innerHTML = "";
 
   document.getElementById("empId").value = "";
   document.getElementById("password").value = "";
